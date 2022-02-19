@@ -5,17 +5,16 @@ using UnityEngine;
 public class Grapple : MonoBehaviour
 {
 
-    private Vector3 mousePos;
+    private Vector2 mousePos;
     private Camera cam;
     private DistanceJoint2D distJoint;
     private LineRenderer lineRenderer;
     private bool canGrapple;
-    private Vector3 tempPos;
+    private Vector2 tempPos;
     public Transform startPos;
     public float grappleLength;
     public bool hitPlatform;
     public LayerMask platformLayer;
-
     public bool grappling;
     void Start()
     {
@@ -31,14 +30,15 @@ public class Grapple : MonoBehaviour
     {
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit2D hit = Physics2D.Raycast(startPos.position, mousePos, Mathf.Infinity, platformLayer);
+        RaycastHit2D hit = Physics2D.Raycast(startPos.position, mousePos);
 
-        if(hit)
+        if(hit.collider.gameObject.layer == 8)
             hitPlatform = true;
         else
             hitPlatform = false;
 
-        if(Input.GetMouseButtonDown(0) & canGrapple)
+
+        if (Input.GetMouseButtonDown(0) & canGrapple)
         {
             grappling = true;
             distJoint.enabled = true;
@@ -50,14 +50,14 @@ public class Grapple : MonoBehaviour
             canGrapple = false;
             hitPlatform = false;
         }
-        else if(Input.GetMouseButtonDown(0) || GetComponent<PlayerController>().jumpPressed)
+        else if (Input.GetMouseButtonDown(0) || GetComponent<PlayerController>().jumpPressed)
         {
             grappling = false;
             distJoint.enabled = false;
             lineRenderer.enabled = false;
             canGrapple = true;
         }
-        if(lineRenderer.enabled == true)
+        if (lineRenderer.enabled == true)
         {
             lineRenderer.SetPosition(0, startPos.position);
             lineRenderer.SetPosition(1, tempPos);
