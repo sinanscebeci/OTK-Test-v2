@@ -115,6 +115,9 @@ public class PlayerController : MonoBehaviour
         //Slow time if F is pressed
         if(Input.GetKey(KeyCode.F))
         {
+            /*Can grapple if F is pressed
+            GetComponent<Grapple>().enabled = true;*/
+
             //Time is slowed and constant if the player isn't grappling
             if(!GetComponent<Grapple>().grappling)
             {    
@@ -150,6 +153,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            /*Cannot grapple if F is not pressed
+            GetComponent<Grapple>().enabled = false;
+            GetComponent<DistanceJoint2D>().enabled = false;
+            GetComponent<LineRenderer>().enabled = false;
+            */
             Time.timeScale = 1;
             timeSlowed = false;
         }
